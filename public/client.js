@@ -13,8 +13,8 @@ $(function() {
 
   $('form').submit(function(event) {
     event.preventDefault();
-    fName = $('input#fName').val();
-    lName = $('input#lName').val();
+    var fName = $('input#fName').val();
+    var lName = $('input#lName').val();
     $.post('/users?' + $.param({fName:fName, lName:lName}), function() {
       $('<li></li>').text(fName + " " + lName).appendTo('ul#users');
       $('input#fName').val('');

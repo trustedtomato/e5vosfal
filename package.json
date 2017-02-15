@@ -10,13 +10,8 @@
     "express": "^4.12.4",
     "nedb": "*"
 	},
-	"repository": {
-		"type": "Gomix",
-		"url": "https://hyperdev.com/#!/project/ne-db"
-	},
 	"keywords": [
 		"node",
-		"gomix",
 		"express",
 		"nedb"
 	],
