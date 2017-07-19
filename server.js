@@ -24,17 +24,18 @@ app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
+  console.log("Page loaded");
   response.sendFile(__dirname + '/views/index.html');
 });
 
 app.get("/users", function (request, response) {
   var dbUsers=[];
-  db.find({}, function (err, users) { // Find all users in the collection
-    users.forEach(function(user) {
-      dbUsers.push([user.firstName,user.lastName]); // adds their info to the dbUsers value
-    });
-    response.send(dbUsers); // sends dbUsers back to the page
+  var users = db.get('users').value() // Find all users in the collection
+  console.log(users);
+  users.forEach(function(user) {
+    dbUsers.push([user.firstName,user.lastName]); // adds their info to the dbUsers value
   });
+  response.send(dbUsers); // sends dbUsers back to the page
 });
 
 // creates a new entry in the users collection with the submitted values
@@ -61,6 +62,7 @@ app.get("/reset", function (request, response) {
       {"firstName":"Ahmed","lastName":"Khan"}
     ]
   }).write();
+  console.log("Default users added");
   response.redirect("/");
 });
 
