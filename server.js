@@ -3,12 +3,14 @@
 
 // init project
 var express = require('express');
-var low = require('lowdb');
 // setup a new database
 // persisted using async file storage
 // Security note: the database is saved to the file `db.json` on the local filesystem.
 // It's deliberately placed in the `.data` directory which doesn't get copied if someone remixes the project.
-var db = low('.data/db.json', { storage: require('lowdb/lib/storages/file-async') });
+var low = require('lowdb')
+var FileSync = require('lowdb/adapters/FileSync')
+var adapter = new FileSync('.data/db.json')
+var db = low(adapter)
 var app = express();
 
 // default user list
