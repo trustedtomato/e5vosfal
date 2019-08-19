@@ -4,6 +4,7 @@ var FileSync = require('lowdb/adapters/FileSync')
 var adapter = new FileSync('.data/db.json')
 var db = low(adapter)
 var app = express();
+app.set('view engine', 'ejs');
 
 // default user list
 db.defaults({
@@ -12,10 +13,7 @@ db.defaults({
   ]
 }).write();
 
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
-
-// http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
