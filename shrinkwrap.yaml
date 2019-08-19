@@ -3,6 +3,7 @@ dependencies:
   ejs: 2.6.2
   express: 4.16.3
   lowdb: 1.0.0
+  nedb: 1.8.0
   ramda: 0.26.1
   slug: 1.1.0
 packages:
@@ -19,6 +20,16 @@ packages:
     dev: false
     resolution:
       integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
+  /async/0.2.10:
+    dev: false
+    resolution:
+      integrity: sha1-trvgsGdLnXGXCMo43owjfLUmw9E=
+  /binary-search-tree/0.2.5:
+    dependencies:
+      underscore: 1.4.4
+    dev: false
+    resolution:
+      integrity: sha1-fbs7IQ/coIJFDa0jNMMErzm9x4Q=
   /body-parser/1.18.2:
     dependencies:
       bytes: 3.0.0
@@ -241,6 +252,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==
+  /immediate/3.0.6:
+    dev: false
+    resolution:
+      integrity: sha1-nbHb0Pr43m++D13V5Wu2BigN5ps=
   /inherits/2.0.3:
     dev: false
     resolution:
@@ -255,6 +270,18 @@ packages:
     dev: false
     resolution:
       integrity: sha1-eaKp7OfwlugPNtKy87wWwf9L8/o=
+  /lie/3.1.1:
+    dependencies:
+      immediate: 3.0.6
+    dev: false
+    resolution:
+      integrity: sha1-mkNrLMd0bKWd56QfpGmz77dr2H4=
+  /localforage/1.7.3:
+    dependencies:
+      lie: 3.1.1
+    dev: false
+    resolution:
+      integrity: sha512-1TulyYfc4udS7ECSBT2vwJksWbkwwTX8BzeUIiq8Y07Riy7bDAAnxDaPU/tWyOVmQAcWJIEIFP9lPfBGqVoPgQ==
   /lodash/4.17.5:
     dev: false
     resolution:
@@ -320,10 +347,31 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-KI1+qOZu5DcW6wayYHSzR/tXKCDC5Om4s1z2QJjDULzLcmf3DvzS7oluY4HCTrc+9FiKmWUgeNLg7W3uIQvxtQ==
+  /minimist/0.0.8:
+    dev: false
+    resolution:
+      integrity: sha1-hX/Kv8M5fSYluCKCYuhqp6ARsF0=
+  /mkdirp/0.5.1:
+    dependencies:
+      minimist: 0.0.8
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   /ms/2.0.0:
     dev: false
     resolution:
       integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=
+  /nedb/1.8.0:
+    dependencies:
+      async: 0.2.10
+      binary-search-tree: 0.2.5
+      localforage: 1.7.3
+      mkdirp: 0.5.1
+      underscore: 1.4.4
+    dev: false
+    resolution:
+      integrity: sha1-DjUCzYLABNU1WkPJ5VV3vXvZHYg=
   /negotiator/0.6.1:
     dev: false
     engines:
@@ -507,6 +555,10 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==
+  /underscore/1.4.4:
+    dev: false
+    resolution:
+      integrity: sha1-YaajIBBiKvoHljvzJSA88SI51gQ=
   /unicode/11.0.1:
     dev: false
     engines:
@@ -539,5 +591,6 @@ specifiers:
   ejs: ^2.6.2
   express: ^4.12.4
   lowdb: 1.x
+  nedb: 1.8.0
   ramda: 0.26.1
   slug: 1.1.0

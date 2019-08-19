@@ -12,7 +12,8 @@
     "ejs": "^2.6.2",
     "ramda": "0.26.1",
     "body-parser": "1.19.0",
-    "slug": "1.1.0"
+    "slug": "1.1.0",
+    "nedb": "1.8.0"
   },
   "engines": { "node": "11.x" }, 
   "keywords": [

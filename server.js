@@ -1,12 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const low = require('lowdb/lib/fp');
 const R = require('ramda');
-const FileAsync = require('lowdb/adapters/FileAsync');
-const adapter = new FileAsync('.data/db.json');
+const Datastore = require('nedb');
 const slug = require('slug');
+
 const app = express();
 app.set('view engine', 'ejs');
+
+const db = new Datastore({
+  filename: '.data/db.json',
+  autoload: true,
+});
 
 low(adapter).then(async (db) => {
 
