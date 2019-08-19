@@ -4,7 +4,7 @@
   <h1>Eddigi ötletek</h1>
   <ul>
     <% posts.forEach(function(post) { %>
-      <li><%= post.summary %></li>
+      <li><a href="/post<%= %>"><%= post.summary %></a></li>
     <% }); %>
   </ul>
 </section>
@@ -20,6 +20,8 @@
       <label for="content">Kifejtés:</label>
       <textarea id="content" name="content" type="text" maxlength="1000"></textarea>
     </div>
-    <button>Submit</button>
+    <div>
+      <button>Submit</button>
+    </div>
   </form>
 </section>

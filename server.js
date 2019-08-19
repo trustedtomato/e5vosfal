@@ -4,6 +4,7 @@ const low = require('lowdb/lib/fp');
 const R = require('ramda');
 const FileAsync = require('lowdb/adapters/FileAsync');
 const adapter = new FileAsync('.data/db.json');
+const slug = require('slug');
 const app = express();
 app.set('view engine', 'ejs');
 
@@ -37,8 +38,11 @@ low(adapter).then(async (db) => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post('/post', async (req, res) => {
+    const { summary, content } = req.body;
+    const slug = slug(summary);
     await posts.write([
       R.append({
+        slug: req.body.slug,
         summary: req.body.summary,
         content: req.body.content,
       })
