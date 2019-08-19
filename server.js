@@ -8,25 +8,22 @@ const app = express();
 app.set('view engine', 'ejs');
 
 // setup database
-connect('nedb://.data/data.json').then(() => {
+connect('nedb://.data/data.json').then(async () => {
   
   // setup routing
   app.use(express.static('public'));
-  app.get('/', (req, res) => res.render('pages/index', {
-    posts: posts(R.identity),
+  app.get('/', async (req, res) => res.render('pages/index', {
+    posts: await Post.find({}),
   }));
   
   app.get('/reset', async (req, res) => {
-    await posts.write([
-      R.empty,
-      R.mergeLeft(defaultPosts),
-    ]);
+    await Post.deleteMany({});
     console.log('reseted posts');
     res.redirect('/');
   });
   
-  app.get('/post/:id', async (req, res) => {
-    const post = posts(R.prop(String(req.params.id)));
+  app.get('/post/:urlSlug', async (req, res) => {
+    const post = await Post.findOne({ urlSlug: req.params.urlSlug })
     res.render('pages/post', { post });
   });
   
@@ -34,14 +31,12 @@ connect('nedb://.data/data.json').then(() => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post('/post', async (req, res) => {
     const { summary, content } = req.body;
-    const id = getPostSlug(summary);
-    await posts.write([
-      R.assoc(id, {
-        summary,
-        content,
-        comments: [],
-      })
-    ]);
+    const urlSlug = Post.getUrlSlug(summary);
+    await Post.create({
+      urlSlug,
+      summary,
+      content,
+    });
     if (typeof req.query.redirect === 'string') {
       res.redirect('/');
     } else {

@@ -10,20 +10,14 @@ module.exports = class Post extends Document {
     this.content = { type: String, required: true };
   }
   static getUrlSlug(summary) {
-    const postSlug = slug(summary).toLowerCase();
-    if (posts([
-      R.has(postSlug),
-      R.not
-    ])) {
-      return postSlug;
+    const urlSlug = slug(summary).toLowerCase();
+    if (!this.findOne({ urlSlug })) {
+      return urlSlug;
     }
     for (let i = 2;; i++) {
-      const numberedPostSlug = `${postSlug}-${i}`;
-      if (posts([
-        R.has(numberedPostSlug),
-        R.not
-      ])) {
-        return numberedPostSlug;
+      const numberedUrlSlug = `${urlSlug}-${i}`;
+      if (!this.findOne({ urlSlug })) {
+        return numberedUrlSlug;
       }
     }
   } 
