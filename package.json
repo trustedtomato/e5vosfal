@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "express": "^4.12.4",
-    "lowdb": "1.x"
+    "lowdb": "1.x",
+    "ejs": "^2.6.2"
   },
   "engines": { "node": "6.x" }, 
   "keywords": [

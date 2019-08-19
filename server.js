@@ -6,35 +6,23 @@ var db = low(adapter)
 var app = express();
 app.set('view engine', 'ejs');
 
-// default user list
-db.defaults({
-  posts: [
-    {summary: 'Hello world!', text: 'I would like to sincerely welcome the world.'},
-  ]
-}).write();
+// default post list
+const defaultPosts = [
+  {
+    summary: 'Hello world!',
+    text: 'I would like to sincerely welcome the world.'
+  },
+];
 
+db.defaults(defaultPosts).write();
+
+// setup routing
 app.use(express.static('public'));
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + '/views/index.html');
-});
+app.get('/', (req, res) => res.render('pages/index', {
+  posts: db.get('posts').value(),
+}));
 
-app.get("/users", function (request, response) {
-  var dbUsers=[];
-  var users = db.get('users').value() // Find all users in the collection
-  users.forEach(function(user) {
-    dbUsers.push([user.firstName,user.lastName]); // adds their info to the dbUsers value
-  });
-  response.send(dbUsers); // sends dbUsers back to the page
-});
-
-// creates a new entry in the users collection with the submitted values
-app.post("/users", function (request, response) {
-  db.get('users')
-    .push({ firstName: request.query.fName, lastName: request.query.lName })
-    .write()
-  console.log("New user inserted in the database");
-  response.sendStatus(200);
-});
+app.get('/reset', (req, res))
 
 // removes entries from users and populates it with default users
 app.get("/reset", function (request, response) {

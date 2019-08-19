@@ -1,4 +1,5 @@
 dependencies:
+  ejs: 2.6.2
   express: 4.16.3
   lowdb: 1.0.0
 packages:
@@ -86,6 +87,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
+  /ejs/2.6.2:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha512-PcW2a0tyTuPHz3tWyYqtK6r1fZ3gp+3Sop8Ph+ZYN81Ob5rwmbHEzaqs10N3BEsaGTkh/ooniXK+WwszGlc2+Q==
   /encodeurl/1.0.2:
     dev: false
     engines:
@@ -411,5 +418,6 @@ registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
+  ejs: ^2.6.2
   express: ^4.12.4
   lowdb: 1.x

@@ -1,0 +1,7 @@
+<% include ../partials/meta %>
+
+<ul>
+  <% posts.forEach(function(post) { %>
+    <li><%= post.summary %></li>
+  <% }); %>
+</ul>
