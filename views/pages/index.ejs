@@ -3,7 +3,7 @@
 <section>
   <h1>Eddigi ötletek</h1>
   <div>
-    <% for (const { urlSlug, summary, _id } of posts) { %>
+    <% for (const { urlSlug, summary, _id, rating } of posts) { %>
       <article id="post-<%= urlSlug %>">
         <h1><a href="/post/<%= urlSlug %>"><%= summary %></a></h1>
         <div>
@@ -13,6 +13,9 @@
           <form id="dislike-form" action="/rate-post?id=<%= _id %>&rating=-1&redirect" method="post">
             <button>Meh</button>
           </form>
+          <span>
+            <%=  %>
+          </span>
         </div>
       </article>
     <% } %>
