@@ -3,13 +3,16 @@
 <section>
   <h1>Eddigi ötletek</h1>
   <div>
-    <% for (const { urlSlug, summary } of posts) { %>
+    <% for (const { urlSlug, summary, _id } of posts) { %>
       <article id="post-<%= urlSlug %>">
         <h1><a href="/post/<%= urlSlug %>"><%= summary %></a></h1>
         <div>
-          <form>
-          <button>Adom</button>
-          <button>Meh</button>
+          <form id="like-form" action="/rate-post?id=<%= _id %>&rating=1&redirect" method="post">
+            <button>Adom</button>
+          </form>
+          <form id="dislike-form" action="/rate-post?id=<%= _id %>&rating=-1&redirect" method="post">
+            <button>Meh</button>
+          </form>
         </div>
       </article>
     <% } %>
@@ -18,7 +21,7 @@
 
 <section>
   <h1>Új ötlet javaslása</h1>
-  <form action="/post?redirect" method="post">
+  <form id="post-form" action="/post?redirect" method="post">
     <div>
       <label for="summary">Röviden:</label>
       <input id="summary" name="summary" type="text" required maxlength="100">

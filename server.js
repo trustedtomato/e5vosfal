@@ -56,6 +56,10 @@ connect('nedb://.data/data.json').then(async () => {
       }
     }
   });
+
+  app.post('/rate-post', (req, res) => {
+    
+  });
   
   // listen for requests :)
   var listener = app.listen(process.env.PORT, function () {
