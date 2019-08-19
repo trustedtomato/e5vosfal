@@ -11,14 +11,26 @@ app.set('view engine', 'ejs');
 low(adapter).then(async (db) => {
 
   // default post list
-  const defaultPosts = [
-    {
+  const defaultPosts = {
+    'hello-world': {
       summary: 'Hello world!',
       content: 'I would like to sincerely welcome the world.'
     },
-  ];
+  };
   
   const posts = await db('posts', defaultPosts);
+  const getPostSlug = (summary) => {
+    const postSlug = slug(summary);
+    if (!posts.has(postSlug)) {
+      return postSlug;
+    }
+    for (let i = 2;; i++) {
+      const numberedPostSlug = `${postSlug}-${i}`;
+      if (!posts.has(numberedPostSlug)) {
+        return numberedPostSlug;
+      }
+    }
+  };
   
   // setup routing
   app.use(express.static('public'));
@@ -29,7 +41,7 @@ low(adapter).then(async (db) => {
   app.get('/reset', async (req, res) => {
     await posts.write([
       R.empty,
-      R.concat(defaultPosts),
+      R.mergeLeft(defaultPosts),
     ]);
     console.log('reseted posts');
     res.redirect('/');
@@ -39,12 +51,11 @@ low(adapter).then(async (db) => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post('/post', async (req, res) => {
     const { summary, content } = req.body;
-    const slug = slug(summary);
+    const slug = getPostSlug(summary);
     await posts.write([
-      R.append({
-        slug: req.body.slug,
-        summary: req.body.summary,
-        content: req.body.content,
+      R.assoc(slug, {
+        summary,
+        content,
       })
     ]);
     if (typeof req.query.redirect === 'string') {

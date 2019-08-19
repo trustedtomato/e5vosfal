@@ -3,9 +3,9 @@
 <section>
   <h1>Eddigi ötletek</h1>
   <ul>
-    <% posts.forEach(function(post) { %>
-      <li><a href="/post<%= %>"><%= post.summary %></a></li>
-    <% }); %>
+    <% for (const [slug, { summary }] of Object.entries(posts)) { %>
+      <li><a href="/post/<%= slug %>"><%= summary %></a></li>
+    <% } %>
   </ul>
 </section>
 
