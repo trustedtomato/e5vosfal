@@ -20,13 +20,19 @@ low(adapter).then(async (db) => {
   
   const posts = await db('posts', defaultPosts);
   const getPostSlug = (summary) => {
-    const postSlug = slug(summary);
-    if (!posts.has(postSlug)) {
+    const postSlug = slug(summary).toLowerCase();
+    if (posts([
+      R.has(postSlug),
+      R.not
+    ])) {
       return postSlug;
     }
     for (let i = 2;; i++) {
       const numberedPostSlug = `${postSlug}-${i}`;
-      if (!posts.has(numberedPostSlug)) {
+      if (posts([
+        R.has(numberedPostSlug),
+        R.not
+      ])) {
         return numberedPostSlug;
       }
     }
