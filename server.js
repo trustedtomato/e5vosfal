@@ -22,7 +22,11 @@ app.get('/', (req, res) => res.render('pages/index', {
   posts: db.get('posts').value(),
 }));
 
-app.get('/reset', (req, res))
+app.get('/reset', (req, res) => {
+  db.get('posts')
+    .remove()
+    .write();
+});
 
 // removes entries from users and populates it with default users
 app.get("/reset", function (request, response) {
