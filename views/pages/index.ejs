@@ -2,11 +2,18 @@
 
 <section>
   <h1>Eddigi ötletek</h1>
-  <ul>
+  <div>
     <% for (const { urlSlug, summary } of posts) { %>
-      <li><a href="/post/<%= urlSlug %>"><%= summary %></a></li>
+      <article id="post-<%= urlSlug %>">
+        <h1><a href="/post/<%= urlSlug %>"><%= summary %></a></h1>
+        <div>
+          <form>
+          <button>Adom</button>
+          <button>Meh</button>
+        </div>
+      </article>
     <% } %>
-  </ul>
+  </div>
 </section>
 
 <section>
@@ -21,7 +28,7 @@
       <textarea id="content" name="content" type="text" maxlength="1000"></textarea>
     </div>
     <div>
-      <button>Submit</button>
+      <button>Beküldés</button>
     </div>
   </form>
 </section>

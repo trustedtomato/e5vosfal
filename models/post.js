@@ -4,6 +4,8 @@ const slug = require('slug');
 class Comment extends EmbeddedDocument {
   constructor() {
     super();
+
+    this.content = { type: String, required: true };
   }
 };
 
