@@ -6,7 +6,7 @@ const adapter = new FileAsync('.data/db.json');
 const app = express();
 app.set('view engine', 'ejs');
 
-low(adapter).then((db) => {
+low(adapter).then(async (db) => {
 
   // default post list
   const defaultPosts = [
@@ -16,30 +16,21 @@ low(adapter).then((db) => {
     },
   ];
   
-  const posts = db('posts', defaultPosts);
+  const posts = await db('posts', defaultPosts);
   
   // setup routing
   app.use(express.static('public'));
   app.get('/', (req, res) => res.render('pages/index', {
-    posts: posts(),
+    posts: posts(R.identity),
   }));
-  
+
   app.get('/reset', async (req, res) => {
     await posts.write([
       R.empty,
       R.concat(defaultPosts),
     ]);
+    console.log('reseted posts');
     res.redirect('/');
-  });
-  
-  // removes all entries from the collection
-  app.get("/clear", function (request, response) {
-    // removes all entries from the collection
-    db.get('users')
-    .remove()
-    .write()
-    console.log("Database cleared");
-    response.redirect("/");
   });
   
   // listen for requests :)
