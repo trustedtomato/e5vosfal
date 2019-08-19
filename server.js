@@ -59,8 +59,12 @@ connect('nedb://.data/data.json').then(async () => {
 
   app.post('/rate-post', (req, res) => {
     const { id, rating, redirect } = req.query;
-    const post = Post.findOne({ _id: id });
-    res.status
+    const post = Post.findOneAndUpdate({ _id: id }, {
+      $push: rating.
+    });
+    if (post) {
+      
+    }
   });
   
   // listen for requests :)

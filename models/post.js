@@ -1,25 +1,5 @@
-const { Document, EmbeddedDocument } = require('marpat');
+const { Document } = require('marpat');
 const slug = require('slug');
-
-class Rating extends EmbeddedDocument {
-  constructor() {
-    super();
-
-    this.value = {
-      type: Number,
-      choices: [-1, 1]
-    };
-  }
-}
-
-class Comment extends EmbeddedDocument {
-  constructor() {
-    super();
-
-    this.content = { type: String, required: true };
-    this.ratings = [Rating];
-  }
-};
 
 module.exports = class Post extends Document {
   constructor() {
@@ -45,7 +25,7 @@ module.exports = class Post extends Document {
     }
   }
 
-  getRating() {
+  get rating() {
     return this.ratings.reduce(
       (rating, ratingSum) => ratingSum + rating.value,
       0
