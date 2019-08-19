@@ -1,12 +1,4 @@
-// server.js
-// where your node app starts
-
-// init project
 var express = require('express');
-// setup a new database
-// persisted using async file storage
-// Security note: the database is saved to the file `db.json` on the local filesystem.
-// It's deliberately placed in the `.data` directory which doesn't get copied if someone remixes the project.
 var low = require('lowdb')
 var FileSync = require('lowdb/adapters/FileSync')
 var adapter = new FileSync('.data/db.json')
@@ -14,12 +6,11 @@ var db = low(adapter)
 var app = express();
 
 // default user list
-db.defaults({ users: [
-      {"firstName":"John", "lastName":"Hancock"},
-      {"firstName":"Liz",  "lastName":"Smith"},
-      {"firstName":"Ahmed","lastName":"Khan"}
-    ]
-  }).write();
+db.defaults({
+  posts: [
+    {summary: 'Hello world!', text: 'I would like to sincerely welcome the world.'},
+  ]
+}).write();
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
