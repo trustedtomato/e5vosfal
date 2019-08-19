@@ -1,0 +1,15 @@
+<% include ../partials/meta %>
+
+<h1><%= post.summary %></h1>
+<p>
+  <%= post.content %>
+</p>
+
+<section>
+  <h1>Hozzászólások</h1>
+  <div>
+    <% for (const { content } of post.comments) { %>
+
+    <% } %>
+  </div>
+</section>

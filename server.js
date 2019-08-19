@@ -53,13 +53,18 @@ low(adapter).then(async (db) => {
     res.redirect('/');
   });
 
+  app.get('/post/:id', async (req, res) => {
+    const post = posts(R.prop(String(req.params.id)));
+    res.render('pages/post', { post });
+  });
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post('/post', async (req, res) => {
     const { summary, content } = req.body;
-    const slug = getPostSlug(summary);
+    const id = getPostSlug(summary);
     await posts.write([
-      R.assoc(slug, {
+      R.assoc(id, {
         summary,
         content,
       })
