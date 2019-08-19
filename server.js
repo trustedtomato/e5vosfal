@@ -3,32 +3,12 @@ const bodyParser = require('body-parser');
 const R = require('ramda');
 const { connect } = require('marpat');
 const Post = require('./models/post');
-const slug = require('slug');
 
 const app = express();
 app.set('view engine', 'ejs');
 
 // setup database
-connect('nedb://.data/data.json').then((db) => {
-
-  const getPostSlug = (summary) => {
-    const postSlug = slug(summary).toLowerCase();
-    if (posts([
-      R.has(postSlug),
-      R.not
-    ])) {
-      return postSlug;
-    }
-    for (let i = 2;; i++) {
-      const numberedPostSlug = `${postSlug}-${i}`;
-      if (posts([
-        R.has(numberedPostSlug),
-        R.not
-      ])) {
-        return numberedPostSlug;
-      }
-    }
-  };
+connect('nedb://.data/data.json').then(() => {
   
   // setup routing
   app.use(express.static('public'));
