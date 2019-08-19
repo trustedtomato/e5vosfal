@@ -1,13 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const R = require('ramda');
-const Datastore = require('nedb');
+const { connect } = require('marpat');
 const slug = require('slug');
 
 const app = express();
 app.set('view engine', 'ejs');
 
 // setup database
+connect('nedb://.data/posts.json');
 const posts = new Datastore({ filename: '.data/posts.json', autoload: true });
 const getPostSlug = (summary) => {
   const postSlug = slug(summary).toLowerCase();

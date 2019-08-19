@@ -13,6 +13,7 @@
     "ramda": "0.26.1",
     "body-parser": "1.19.0",
     "slug": "1.1.0",
+    "marpat": "2.0.1",
     "nedb": "1.8.0"
   },
   "engines": { "node": "11.x" }, 
