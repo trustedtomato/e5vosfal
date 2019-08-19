@@ -14,7 +14,8 @@ low(adapter).then(async (db) => {
   const defaultPosts = {
     'hello-world': {
       summary: 'Hello world!',
-      content: 'I would like to sincerely welcome the world.'
+      content: 'I would like to sincerely welcome the world.',
+      comments: [],
     },
   };
   
@@ -67,6 +68,7 @@ low(adapter).then(async (db) => {
       R.assoc(id, {
         summary,
         content,
+        comments: [],
       })
     ]);
     if (typeof req.query.redirect === 'string') {

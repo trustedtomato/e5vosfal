@@ -9,7 +9,9 @@
   <h1>Hozzászólások</h1>
   <div>
     <% for (const { content } of post.comments) { %>
-
+      <div>
+        <%= content %>
+      </div>
     <% } %>
   </div>
 </section>
