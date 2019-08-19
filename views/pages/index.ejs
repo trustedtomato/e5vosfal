@@ -5,3 +5,15 @@
     <li><%= post.summary %></li>
   <% }); %>
 </ul>
+
+<form action="/post" method="post">
+  <div>
+    <label for="summary">Summary:</label>
+    <input id="summary" name="summary" type="text">
+  </div>
+  <div>
+    <label for="content">Content:</label>
+    <textarea id="content" name="content" type="text"></textarea>
+  </div>
+  <button>Submit</button>
+</form>

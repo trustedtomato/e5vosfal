@@ -13,7 +13,7 @@ low(adapter).then(async (db) => {
   const defaultPosts = [
     {
       summary: 'Hello world!',
-      text: 'I would like to sincerely welcome the world.'
+      content: 'I would like to sincerely welcome the world.'
     },
   ];
   
@@ -38,8 +38,12 @@ low(adapter).then(async (db) => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post('/post', async (req, res) => {
     await posts.write([
-      R.append()
+      R.append({
+        summary: req.body.summary,
+        content: req.body.content,
+      })
     ]);
+    res.redirect('/');
   });
   
   // listen for requests :)
