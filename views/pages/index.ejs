@@ -1,19 +1,25 @@
 <% include ../partials/meta %>
 
-<ul>
-  <% posts.forEach(function(post) { %>
-    <li><%= post.summary %></li>
-  <% }); %>
-</ul>
+<section>
+  <h1>Eddigi ötletek</h1>
+  <ul>
+    <% posts.forEach(function(post) { %>
+      <li><%= post.summary %></li>
+    <% }); %>
+  </ul>
+</section>
 
-<form action="/post?redirect" method="post">
-  <div>
-    <label for="summary">Summary:</label>
-    <input id="summary" name="summary" type="text">
-  </div>
-  <div>
-    <label for="content">Content:</label>
-    <textarea id="content" name="content" type="text"></textarea>
-  </div>
-  <button>Submit</button>
-</form>
+<section>
+  <h1>Új ötlet javaslása</h1>
+  <form action="/post?redirect" method="post">
+    <div>
+      <label for="summary">Röviden:</label>
+      <input id="summary" name="summary" type="text" required maxlength="100">
+    </div>
+    <div>
+      <label for="content">Kifejtés:</label>
+      <textarea id="content" name="content" type="text" maxlength="1000"></textarea>
+    </div>
+    <button>Submit</button>
+  </form>
+</section>
