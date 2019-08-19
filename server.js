@@ -1,9 +1,10 @@
-var express = require('express');
-var low = require('lowdb')
-var FileSync = require('lowdb/adapters/FileSync')
-var adapter = new FileSync('.data/db.json')
-var db = low(adapter)
-var app = express();
+const express = require('express');
+const low = require('lowdb/lib/fp');
+const R = require('ramda');
+const FileAsync = require('lowdb/adapters/FileAsync')
+const adapter = new FileAsync('.data/db.json')
+const db = low(adapter)
+const app = express();
 app.set('view engine', 'ejs');
 
 // default post list
@@ -14,15 +15,16 @@ const defaultPosts = [
   },
 ];
 
-db.defaults(defaultPosts).write();
+const posts = db('posts', defaultPosts);
 
 // setup routing
 app.use(express.static('public'));
 app.get('/', (req, res) => res.render('pages/index', {
-  posts: db.get('posts').value(),
+  posts: posts(),
 }));
 
 app.get('/reset', (req, res) => {
+  R.empty(posts)
   db.get('posts')
     .remove()
     .write();
