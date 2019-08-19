@@ -7,16 +7,16 @@ module.exports = class Post extends Document {
 
     this.urlSlug = { type: String, required: true, unique: true };
     this.summary = { type: String, required: true };
-    this.content = { type: String, required: true };
+    this.content = { type: String };
   }
-  static getUrlSlug(summary) {
+  static async getUrlSlug(summary) {
     const urlSlug = slug(summary).toLowerCase();
-    if (!this.findOne({ urlSlug })) {
+    if (!await this.findOne({ urlSlug })) {
       return urlSlug;
     }
     for (let i = 2;; i++) {
       const numberedUrlSlug = `${urlSlug}-${i}`;
-      if (!this.findOne({ urlSlug })) {
+      if (!await this.findOne({ urlSlug: numberedUrlSlug })) {
         return numberedUrlSlug;
       }
     }

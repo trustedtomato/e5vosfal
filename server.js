@@ -31,16 +31,25 @@ connect('nedb://.data/data.json').then(async () => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post('/post', async (req, res) => {
     const { summary, content } = req.body;
-    const urlSlug = Post.getUrlSlug(summary);
-    await Post.create({
-      urlSlug,
-      summary,
-      content,
-    });
-    if (typeof req.query.redirect === 'string') {
-      res.redirect('/');
-    } else {
-      res.sendStatus(200);
+    const urlSlug = await Post.getUrlSlug(summary);
+    try {
+      await Post.create({
+        urlSlug,
+        summary,
+        content,
+      }).save();
+      if (typeof req.query.redirect === 'string') {
+        res.redirect('/');
+      } else {
+        res.sendStatus(200);
+      }
+    } catch(err) {
+      if (typeof req.query.redirect === 'string') {
+        res.redirect('/?error=' + encodeURIComponent(JSON.stringify(err)));
+      } else {
+        res.status(400);
+        res.json(err);
+      }
     }
   });
   
