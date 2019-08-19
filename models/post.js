@@ -3,8 +3,9 @@ const { Document } = require('marpat');
 module.exports = class Post extends Document {
   constructor () {
     super();
-    this.summary = String;
-    this.content = String;
-    
+
+    this.slug = { type: String, required: true };
+    this.summary = { type: String, required: true };
+    this.content = { type: String, required: true };
   }
 };
