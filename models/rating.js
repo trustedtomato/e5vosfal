@@ -1,3 +1,5 @@
+const { EmbeddedDocument } = require('marpat');
+
 module.exports = class Rating extends EmbeddedDocument {
   constructor() {
     super();

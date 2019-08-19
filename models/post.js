@@ -1,4 +1,6 @@
 const { Document } = require('marpat');
+const Comment = require('./comment');
+const Rating = require('./rating');
 const slug = require('slug');
 
 module.exports = class Post extends Document {

@@ -1,4 +1,5 @@
 const { EmbeddedDocument } = require('marpat');
+const Rating = require('./rating');
 
 module.exports = class Comment extends EmbeddedDocument {
   constructor() {
