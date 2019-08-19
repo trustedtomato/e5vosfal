@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const low = require('lowdb/lib/fp');
 const R = require('ramda');
 const FileAsync = require('lowdb/adapters/FileAsync');
@@ -31,6 +32,14 @@ low(adapter).then(async (db) => {
     ]);
     console.log('reseted posts');
     res.redirect('/');
+  });
+
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.post('/post', async (req, res) => {
+    await posts.write([
+      R.append()
+    ]);
   });
   
   // listen for requests :)
