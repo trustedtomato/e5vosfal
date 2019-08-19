@@ -43,7 +43,11 @@ low(adapter).then(async (db) => {
         content: req.body.content,
       })
     ]);
-    res.redirect('/');
+    if (typeof req.query.redirect === 'string') {
+      res.redirect('/');
+    } else {
+      res.sendStatus(200);
+    }
   });
   
   // listen for requests :)
