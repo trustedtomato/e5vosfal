@@ -1,5 +1,11 @@
-const { Document } = require('marpat');
+const { Document, EmbeddedDocument } = require('marpat');
 const slug = require('slug');
+
+class Comment extends EmbeddedDocument {
+  constructor() {
+    super();
+  }
+};
 
 module.exports = class Post extends Document {
   constructor() {
@@ -8,7 +14,9 @@ module.exports = class Post extends Document {
     this.urlSlug = { type: String, required: true, unique: true };
     this.summary = { type: String, required: true };
     this.content = { type: String };
+    this.comments = { type: [Comment], default: [] };
   }
+
   static async getUrlSlug(summary) {
     const urlSlug = slug(summary).toLowerCase();
     if (!await this.findOne({ urlSlug })) {

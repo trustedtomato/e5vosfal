@@ -3,8 +3,8 @@
 <section>
   <h1>Eddigi ötletek</h1>
   <ul>
-    <% for (const [slug, { summary }] of Object.entries(posts)) { %>
-      <li><a href="/post/<%= slug %>"><%= summary %></a></li>
+    <% for (const { urlSlug, summary } of posts) { %>
+      <li><a href="/post/<%= urlSlug %>"><%= summary %></a></li>
     <% } %>
   </ul>
 </section>

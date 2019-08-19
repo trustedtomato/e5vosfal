@@ -44,11 +44,15 @@ connect('nedb://.data/data.json').then(async () => {
         res.sendStatus(200);
       }
     } catch(err) {
+      const error = {
+        name: err.name,
+        message: err.message
+      };
       if (typeof req.query.redirect === 'string') {
-        res.redirect('/?error=' + encodeURIComponent(JSON.stringify(err)));
+        res.redirect('/?error=' + encodeURIComponent(JSON.stringify(error)));
       } else {
         res.status(400);
-        res.json(err);
+        res.json(error);
       }
     }
   });
