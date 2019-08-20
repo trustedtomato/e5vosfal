@@ -4,19 +4,25 @@
   "description": "Example app showing use of Lowdb",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postversion": "git push --tags && npm run push-to-glitch",
+    "push-to-glitch": "node -r dotenv/config ./node_modules/sync-glitch-cli/cli.js"
   },
   "dependencies": {
+    "body-parser": "1.19.0",
+    "dotenv": "^8.1.0",
+    "ejs": "^2.6.2",
     "express": "^4.12.4",
     "lowdb": "1.x",
-    "ejs": "^2.6.2",
-    "ramda": "0.26.1",
-    "body-parser": "1.19.0",
-    "slug": "1.1.0",
     "marpat": "2.0.1",
-    "nedb": "1.8.0"
+    "nedb": "1.8.0",
+    "ramda": "0.26.1",
+    "slug": "1.1.0",
+    "sync-glitch-cli": "2.0.1"
   },
-  "engines": { "node": "11.x" }, 
+  "engines": {
+    "node": "11.x"
+  },
   "keywords": [
     "node",
     "express",
