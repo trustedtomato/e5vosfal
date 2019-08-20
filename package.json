@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "postversion": "git push --tags && npm run push-to-glitch",
+    "postversion": "git push && git push --tags && npm run push-to-glitch",
     "push-to-glitch": "node -r dotenv/config ./node_modules/sync-glitch-cli/cli.js"
   },
   "dependencies": {
