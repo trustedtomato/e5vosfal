@@ -1,12 +1,10 @@
-const { EmbeddedDocument } = require('marpat');
+const { Schema, model } = require('mongoose');
+const Vote = require('./vote');
 
-module.exports = class Rating extends EmbeddedDocument {
-  constructor() {
-    super();
+const Rating = new Schema({
+  votes: { type: [{ type: Schema.Types.ObjectId, ref: Vote }], default: [] },
+});
 
-    this.value = {
-      type: Number,
-      choices: [-1, 1]
-    };
-  }
-}
+Rating.virtual('value').get((rating, vote) => rating + vote.value, 0);
+
+module.exports = model('Rating', Rating);

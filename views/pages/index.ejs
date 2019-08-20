@@ -7,10 +7,10 @@
       <article id="post-<%= urlSlug %>">
         <h1><a href="/post/<%= urlSlug %>"><%= summary %></a></h1>
         <div>
-          <form id="like-form" action="/rate-post?id=<%= _id %>&rating=1&redirect" method="post">
+          <form id="like-form" action="/rate-post?id=<%= _id %>&rating=1&redirect=/#post-<%= urlSlug %>" method="post">
             <button>Adom</button>
           </form>
-          <form id="dislike-form" action="/rate-post?id=<%= _id %>&rating=-1&redirect" method="post">
+          <form id="dislike-form" action="/rate-post?id=<%= _id %>&rating=-1&redirect=/#post-<%= urlSlug %>" method="post">
             <button>Meh</button>
           </form>
           <span>

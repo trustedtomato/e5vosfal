@@ -1,32 +1,38 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const R = require('ramda');
-const { connect } = require('marpat');
+const mongoose = require('mongoose');
 const Post = require('./models/post');
+const Vote = require('./models/vote');
 
 const app = express();
 app.set('view engine', 'ejs');
 
 // setup database
-connect('nedb://.data/data.json').then(async () => {
-  
+mongoose.connect(
+  `mongodb+srv://${encodeURIComponent(process.env.MONGODB_USERNAME)}:${encodeURIComponent(process.env.MONGODB_PASS)}@cluster0-iizuz.mongodb.net/test?retryWrites=true&w=majority`,
+  { useNewUrlParser: true },
+).then(async () => {
+  console.log('Connected to database!');
   // setup routing
   app.use(express.static('public'));
-  app.get('/', async (req, res) => res.render('pages/index', {
-    posts: await Post.find({}),
-  }));
-  
+  app.get('/', async (req, res) => {
+    return res.render('pages/index', {
+      posts: await Post.find({}).populate('votes').populate('comments'),
+    });
+  });
+
   app.get('/reset', async (req, res) => {
     await Post.deleteMany({});
     console.log('reseted posts');
     res.redirect('/');
   });
-  
+
   app.get('/post/:urlSlug', async (req, res) => {
-    const post = await Post.findOne({ urlSlug: req.params.urlSlug })
+    const post = await Post.findOne({ urlSlug: req.params.urlSlug });
     res.render('pages/post', { post });
   });
-  
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.post('/post', async (req, res) => {
@@ -37,16 +43,16 @@ connect('nedb://.data/data.json').then(async () => {
         urlSlug,
         summary,
         content,
-      }).save();
+      });
       if (typeof req.query.redirect === 'string') {
         res.redirect('/');
       } else {
         res.sendStatus(200);
       }
-    } catch(err) {
+    } catch (err) {
       const error = {
         name: err.name,
-        message: err.message
+        message: err.message,
       };
       if (typeof req.query.redirect === 'string') {
         res.redirect('/?error=' + encodeURIComponent(JSON.stringify(error)));
@@ -57,18 +63,27 @@ connect('nedb://.data/data.json').then(async () => {
     }
   });
 
-  app.post('/rate-post', (req, res) => {
+  app.post('/rate-post', async (req, res) => {
     const { id, rating, redirect } = req.query;
-    const post = Post.findOneAndUpdate({ _id: id }, {
-      $push: rating.
+    // TODO: handle errors
+    const vote = await Vote.create({
+      value: rating,
     });
-    if (post) {
-      
+    await Post.updateOne({ _id: id }, {
+      $push: {
+        votes: vote,
+      },
+    });
+    if (typeof redirect === 'string') {
+      const redirectTo = !redirect ? '/' : redirect;
+      res.redirect(redirectTo);
+    } else {
+      res.sendStatus(200);
     }
   });
-  
+
   // listen for requests :)
-  var listener = app.listen(process.env.PORT, function () {
-    console.log('Your app is listening on port ' + listener.address().port);
+  const listener = app.listen(process.env.PORT, () => {
+    console.log(`Your app is listening on port ${listener.address().port}`);
   });
 });

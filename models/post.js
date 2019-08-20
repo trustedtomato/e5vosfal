@@ -1,36 +1,34 @@
-const { Document } = require('marpat');
-const Comment = require('./comment');
-const Rating = require('./rating');
+const { Schema, model } = require('mongoose');
 const slug = require('slug');
+const Comment = require('./comment');
+const Vote = require('./vote');
 
-module.exports = class Post extends Document {
-  constructor() {
-    super();
+const Post = new Schema({
+  urlSlug: { type: String, unique: true },
+  summary: { type: String, required: true },
+  content: { type: String },
+  comments: { type: [{ type: Schema.Types.ObjectId, ref: Comment }], default: [] },
+  votes: { type: [{ type: Schema.Types.ObjectId, ref: Vote }], default: [] },
+});
 
-    this.urlSlug = { type: String, required: true, unique: true };
-    this.summary = { type: String, required: true };
-    this.content = { type: String };
-    this.comments = { type: [Comment], default: [] };
-    this.ratings = [Rating];
+Post.virtual('rating').get(function getRating() {
+  this.populate('votes');
+  return this.votes.reduce((rating, vote) => rating + vote.value, 0);
+});
+
+Post.statics.getUrlSlug = async function getUrlSlug(summary) {
+  const urlSlug = slug(summary).toLowerCase();
+  if (!await this.findOne({ urlSlug })) {
+    return urlSlug;
   }
-
-  static async getUrlSlug(summary) {
-    const urlSlug = slug(summary).toLowerCase();
-    if (!await this.findOne({ urlSlug })) {
-      return urlSlug;
+  // eslint-disable-next-line no-constant-condition
+  for (let i = 2; true; i += 1) {
+    const numberedUrlSlug = `${urlSlug}-${i}`;
+    // eslint-disable-next-line no-await-in-loop
+    if (!await this.findOne({ urlSlug: numberedUrlSlug })) {
+      return numberedUrlSlug;
     }
-    for (let i = 2;; i++) {
-      const numberedUrlSlug = `${urlSlug}-${i}`;
-      if (!await this.findOne({ urlSlug: numberedUrlSlug })) {
-        return numberedUrlSlug;
-      }
-    }
-  }
-
-  get rating() {
-    return this.ratings.reduce(
-      (rating, ratingSum) => ratingSum + rating.value,
-      0
-    );
   }
 };
+
+module.exports = model('Post', Post);

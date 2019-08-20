@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "dev": "PORT=8080 nodemon ./server.js",
     "postversion": "git push && git push --tags && npm run push-to-glitch",
     "push-to-glitch": "node -r dotenv/config ./node_modules/sync-glitch-cli/cli.js"
   },
@@ -13,8 +14,7 @@
     "dotenv": "^8.1.0",
     "ejs": "^2.6.2",
     "express": "^4.12.4",
-    "lowdb": "1.x",
-    "marpat": "2.0.1",
+    "mongoose": "^5.6.9",
     "nedb": "1.8.0",
     "ramda": "0.26.1",
     "slug": "1.1.0",
@@ -28,5 +28,11 @@
     "express",
     "lowdb"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.2.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.1"
+  }
 }
